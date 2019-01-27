@@ -37,7 +37,7 @@ export default class Movies extends Component {
   render() {
 
     let movies = this.state.movies.map((movie) => (
-      <li key={movie.id}>
+      <li key={movie.id} className='movieList'>
         <Link to={'/movies/' + movie.id} >
           <Movie title={movie.title} desc={movie.desc} thumbnail={movie.thumbnail} />
         </Link>
