@@ -11,7 +11,7 @@ const flight = (callback) => {
       callback(res.data);
     })
     .catch(err => {
-      console.log(err.response.data);
+      console.log(err.response);
       callback(null, err)
     });
 }
