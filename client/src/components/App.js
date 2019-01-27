@@ -11,20 +11,10 @@ class App extends Component {
       recording: false,
       leftSubtitles: [],
       rightSubtitles: [],
-      interimTranscript: ''
+      interimTranscript: '',
+      value: true
     };
 
-
-
-    // // Call we started was answered
-    // this.socket.on('answeredCall', this.onAnsweredCall);
-
-    // // Call was ended
-    // this.socket.on('hangup', this.onHangup);
-
-    // // WebRTC
-    // this.socket.on('offer', this.onOffer);
-    // this.socket.on('answer', this.onAnswer);
 
     // Speech
     this.recognition = new window.webkitSpeechRecognition();
@@ -43,17 +33,21 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
 
-          <button onMouseUp={this.stopRecording} onMouseDown={this.record} className='button button-left'>
+          <button disabled={!this.state.value} onMouseUp={this.stopRecording} onMouseDown={this.record} className='button button-left'>
             <b>
               Attendant
            </b>
           </button>
 
-          <button className='button button-right'>
+        
+          <button disabled={!this.state.value} onMouseUp={this.stopRecording} onMouseDown={this.record} className='button button-right'>
             <b>
-              Customer
+              Passenger
            </b>
           </button>
+
+          
+          <Dropdown className='list language-list'><li>test</li></Dropdown>
 
         </header>
       </div >
@@ -64,13 +58,30 @@ class App extends Component {
 
 
   // funcs
+  tempDisable = () => {
+    this.setState({
+      value: !this.state.value
+    });
+    console.log("buttons disabled.");
+    // set time out    
+    setTimeout(() => {
+      this.setState({
+        value: !this.state.value
+      });
+    }, 3000);
+   
+  }
 
   // Toggle muting mic
   record = () => {
     this.recognition.start();
+    console.log("recording");
+
     this.setState({
       recording: true
     });
+
+
   }
 
   stopRecording = () => {
@@ -78,6 +89,7 @@ class App extends Component {
     this.setState({
       recording: false
     });
+    this.tempDisable();
   }
   receivedTranslation = (transcript) => {
     console.log('RECEIVED TRANSCRIPT:', transcript);
@@ -105,18 +117,17 @@ class App extends Component {
   }
 
   onTranscript = (event) => {
+    console.log("on transcript");
+    console.log(event.results);
     let results = event.results;
     this.setState({
       interimTranscript: ''
-    })
+    });
     for (let i = event.resultIndex; i < results.length; ++i) {
       let transcript = results[i][0].transcript;
       if (results[i].isFinal) {
-        this.socket.emit('transcript', transcript);
-        this.setState({
-          interimTranscript: '',
-          rightSubtitles: this.state.rightSubtitles.concat(transcript)
-        });
+
+   
 
         setTimeout(() => {
           console.log('timeout');
