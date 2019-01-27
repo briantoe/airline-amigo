@@ -2,154 +2,111 @@ import React, { Component } from 'react';
 
 import './App.css';
 
+// flight data function
+import {flight} from '../flight';
+
 class App extends Component {
 
   constructor(props) {
     super(props);
 
+    // Initialize states of flight variables
     this.state = {
-      recording: false,
-      leftSubtitles: [],
-      rightSubtitles: [],
-      interimTranscript: '',
-      value: true
+      flight: 0,
+      speed: 0,
+      altitude: 0,
+      eta: 0,
+      temperature: 0,
+      originCode: '',
+      originWeather: 0,
+      destinationCode: '',
+      destinationWeather: 0,
+      bathroomStatus: ''
     };
-
-
-    // Speech
-    this.recognition = new window.webkitSpeechRecognition();
-    this.recognition.interimResults = true;
-    this.recognition.onresult = this.onTranscript;
-
-    // Synthesis
-    this.synth = window.speechSynthesis;
-
 
   }
 
+  // I apologize, I hate this code, but
+  // James likes lists
   render() {
 
     return (
       <div className="App">
         <header className="App-header">
 
-          <button disabled={!this.state.value} onMouseUp={this.stopRecording} onMouseDown={this.record} className='button button-left'>
-            <b>
-              Attendant
-           </b>
-          </button>
+          <ul>
+          <ul><h2>Flight {this.state.flightNumber} from {this.state.originCode} to {this.state.destinationCode}</h2></ul>
 
-        
-          <button disabled={!this.state.value} onMouseUp={this.stopRecording} onMouseDown={this.record} className='button button-right'>
-            <b>
-              Passenger
-           </b>
-          </button>
+          <ul className="flightList">
 
-          
-          <Dropdown className='list language-list'><li>test</li></Dropdown>
+          <li className="flightWrap">
+          <div>Speed: </div><div id="flightField"> {this.state.speed} </div>
+          </li>
+
+          <li className="flightWrap">
+          <div>Altitude: </div><div id="flightField"> {this.state.altitude} </div>
+          </li>
+
+          <li className="flightWrap">
+          <div>Outside Temperature: </div><div id="flightField"> {this.state.temperature} </div>
+          </li>
+
+          <li className="flightWrap">
+          <div>Estimated Time Arrival: </div><div id="flightField"> {this.state.eta} </div>
+          </li>
+
+          <li className="flightWrap">
+          <div>Origin Airport: </div><div id="flightField"> {this.state.originCode} </div>
+          </li>
+
+          <li className="flightWrap">
+          <div>Weather At Origin: </div><div id="flightField"> {this.state.originWeather} </div>
+          </li>
+
+          <li className="flightWrap">
+          <div>Destination Airport: </div><div id="flightField"> {this.state.destinationCode} </div>
+          </li>
+
+          <li className="flightWrap">
+          <div>Weather At Destination: </div><div id="flightField"> {this.state.destinationWeather} </div>
+          </li>
+
+          <li className="flightWrap">
+          <div>Bathroom Status: </div><div id="flightField"> {this.state.bathroomStatus} </div>
+          </li>
+          </ul>
+          </ul>
+
+          <div class="flightContainer">
+            <div>test test test</div>
+            <div>result result result</div>
+          </div>
 
         </header>
+  
+        {this.state.speed}
       </div >
     );
 
   }
 
-
-
-  // funcs
-  tempDisable = () => {
-    this.setState({
-      value: !this.state.value
-    });
-    console.log("buttons disabled.");
-    // set time out    
-    setTimeout(() => {
+  // GET flight information
+  componentDidMount() {
+    flight((res) => {
       this.setState({
-        value: !this.state.value
-      });
-    }, 3000);
-   
-  }
-
-  // Toggle muting mic
-  record = () => {
-    this.recognition.start();
-    console.log("recording");
-
-    this.setState({
-      recording: true
+        flight: res[0].flightNumber,
+        speed: res[0].speed,
+        altitude: res[0].altitude,
+        temperature: res[0].temperature,
+        eta: res[0].eta,
+        originCode: res[0].originCode,
+        originWeather: res[0].originWeather,
+        destinationCode: res[0].destinationCode,
+        destinationWeather: res[0].destinationWeather,
+        bathroomStatus: res[0].bathroomStatus
+      })
     });
-
-
   }
-
-  stopRecording = () => {
-    this.recognition.stop();
-    this.setState({
-      recording: false
-    });
-    this.tempDisable();
-  }
-  receivedTranslation = (transcript) => {
-    console.log('RECEIVED TRANSCRIPT:', transcript);
-    this.setState({
-      leftSubtitles: this.state.leftSubtitles.concat(transcript)
-    });
-
-    setTimeout(() => {
-      console.log('timeout');
-      let transcripts = this.state.leftSubtitles;
-      for (let i = 0; i < transcripts.length; i++) {
-        if (transcripts[i] === transcript) {
-          transcripts.splice(i, 1);
-        }
-      }
-
-      this.setState({
-        leftSubtitles: transcripts
-      });
-    }, 5000);
-
-    let utterance = new SpeechSynthesisUtterance(transcript);
-    utterance.lang = this.props.lang;
-    this.synth.speak(utterance);
-  }
-
-  onTranscript = (event) => {
-    console.log("on transcript");
-    console.log(event.results);
-    let results = event.results;
-    this.setState({
-      interimTranscript: ''
-    });
-    for (let i = event.resultIndex; i < results.length; ++i) {
-      let transcript = results[i][0].transcript;
-      if (results[i].isFinal) {
-
-   
-
-        setTimeout(() => {
-          console.log('timeout');
-          let transcripts = this.state.rightSubtitles;
-          for (let i = 0; i < transcripts.length; i++) {
-            if (transcripts[i] === transcript) {
-              transcripts.splice(i, 1);
-            }
-          }
-
-          this.setState({
-            rightSubtitles: transcripts
-          });
-        }, 5000);
-      } else {
-        this.setState({
-          interimTranscript: this.state.interimTranscript + transcript + ' '
-        });
-      }
-    }
-  }
-
 }
 
 export default App;

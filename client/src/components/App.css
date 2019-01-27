@@ -40,7 +40,30 @@
 }
 .button-left:active{ background-color: black}
 
-
-
+#flightField{
+  border-radius: 15px;
+  background-color: white;
+  color: #1d2025;
+  padding: 4px;
+  margin-left: 10px;
+  margin-bottom: 2px;
+}
+.flightList{
+  list-style-type: none;
+}
+.flightWrap{
+  display: flex;
+}
+.flighContainer{
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-between;
+}
+.alignleft{
+  float: left;
+}
+.alignright{
+  float: right;
+}
 
 
