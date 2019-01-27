@@ -1,31 +1,38 @@
 .Links {
   display: flex;
-  justify-content: center;
   flex-direction: row;
-  justify-content: space-between;
-  margin: 50vh 10% 0 10%;
-}
-
-.parent {
-  display: flex;
+  align-items: center;
   justify-content: center;
-  flex-direction: column;
-}
-.bathroomOpen {
-  background: #05f005;
-  color: #05f005;
+  margin: 0;
   text-align: center;
 }
-.bathroomClosed {
-  background: #f00505;
-  color: #f00505;
-  text-align: center;
 
+.Links div {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.bathroomOutOfOrder {
-  background: #05f005;
-  color: #05f005;
-  text-align: center;
+
+#translate-bg {
+  background-image: url('translate-bg.jpg');
+  background-position: center;
+}
+
+#flight-bg {
+  background-image: url('flight-bg.jpg');
+  background-position: right;
+  background-size: cover;
+}
+
+#movies-bg {
+  background-image: url('movies-bg.jpg');
+  background-position: center;
+}
+
+.Links div {
+  width: 100%;
 }
 
 .Links a {

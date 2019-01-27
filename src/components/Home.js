@@ -8,9 +8,15 @@ export default class Home extends Component {
 
     return (
       <div className='Links'>
-        <Link to='/translate'>Tanslate</Link>
-        <Link to='/flight'>Flight</Link>
-        <Link to='/movies'>Movies</Link>
+        <div id='translate-bg'>
+          <Link to='/translate'>Tanslate</Link>
+        </div>
+        <div id='flight-bg'>
+          <Link to='/flight'>Flight</Link>
+        </div>
+        <div id='movies-bg'>
+          <Link to='/movies'>Movies</Link>
+        </div>
       </div>
     );
   }
