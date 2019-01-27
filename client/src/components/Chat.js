@@ -14,42 +14,42 @@ export default class Chat extends Component {
     this.socket.on('chat', this.receivedChat);
   }
 
-  render() {
+  // render() {
 
-    // TODO: Render scrolling chat log of previous messages
-    // TODO: Enter chats into input tag and send by hitting enter or clicking send
+  //   // TODO: Render scrolling chat log of previous messages
+  //   // TODO: Enter chats into input tag and send by hitting enter or clicking send
 
-    let chats = this.state.chats.map(chat => (
-      <p key={chat.key}><span className='ChatDate'>{chat.date}</span> {chat.message}</p>
-    ));
+  //   let chats = this.state.chats.map(chat => (
+  //     <p key={chat.key}><span className='ChatDate'>{chat.date}</span> {chat.message}</p>
+  //   ));
 
-    return (
-      <div className='Chat'>
-        <Scrollbars className='Messages' ref={el => { this.scroll = el }}><div>{chats}</div></Scrollbars>
-        <div className='ChatControls'>
-          <input ref={el => { this.input = el }} onKeyPress={this.onKeyPress} type='text' placeholder='Type here!' />
-          <button onClick={this.sendClicked}>Send</button>
-        </div>
-      </div>
-    );
-  }
+  //   return (
+  //     <div className='Chat'>
+  //       <Scrollbars className='Messages' ref={el => { this.scroll = el }}><div>{chats}</div></Scrollbars>
+  //       <div className='ChatControls'>
+  //         <input ref={el => { this.input = el }} onKeyPress={this.onKeyPress} type='text' placeholder='Type here!' />
+  //         <button onClick={this.sendClicked}>Send</button>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
-  componentDidUpdate() {
-    this.scroll.scrollToBottom();
-  }
+  // componentDidUpdate() {
+  //   this.scroll.scrollToBottom();
+  // }
 
-  onKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      console.log("enter");
-      let text = event.target.value;
-      this.sendChat(text);
-    }
+  // onKeyPress = (event) => {
+  //   if (event.key === 'Enter') {
+  //     console.log("enter");
+  //     let text = event.target.value;
+  //     this.sendChat(text);
+  //   }
 
-  }
+  // }
 
-  sendClicked = () => {
-    this.sendChat(this.input.value);
-  }
+  // sendClicked = () => {
+  //   this.sendChat(this.input.value);
+  // }
 
   receivedChat = (chat) => {
     console.log(chat);
