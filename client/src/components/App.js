@@ -8,6 +8,7 @@ import Users from './Users';
 import Video from './Video';
 import Chat from './Chat';
 import Call from './Call';
+import {flight} from './Translate';
 
 // CSS Import
 import './App.css';
@@ -74,6 +75,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    flight(8921,"2018-07-07", (res) => {});
     let localLang = navigator.language;
     langs.forEach(lang => {
       if (lang.code === localLang) {
