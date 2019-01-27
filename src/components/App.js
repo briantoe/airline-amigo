@@ -6,6 +6,7 @@ import Home from './Home';
 import Translate from './Translate';
 import Flight from './Flight';
 import Movies from './Movies';
+import Movie from './Movie';
 
 class App extends Component {
 
@@ -16,7 +17,8 @@ class App extends Component {
           <Route exact path='/' component={Home} />
           <Route path='/translate' component={Translate} />
           <Route path='/flight' component={Flight} />
-          <Route path='/movies' component={Movies} />
+          <Route exact path='/movies' component={Movies} />
+          <Route path='/movies/:id' component={Movie} />
         </Switch>
       </div>
     )

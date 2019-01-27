@@ -1,0 +1,11 @@
+.Movie {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  color: white;
+}
+
+.Movie video {
+  height: 80vh;
+  width: auto;
+}
