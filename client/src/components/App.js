@@ -1,16 +1,5 @@
 import React, { Component } from 'react';
-import io from 'socket.io-client';
 
-import langs from '../languages';
-
-// Component Imports
-import Users from './Users';
-import Video from './Video';
-import Chat from './Chat';
-import Call from './Call';
-import {flight} from './flight';
-
-// CSS Import
 import './App.css';
 
 class App extends Component {
@@ -19,82 +8,137 @@ class App extends Component {
     super(props);
 
     this.state = {
-      lang: 'en',
-      username: null
+      recording: false,
+      leftSubtitles: [],
+      rightSubtitles: [],
+      interimTranscript: ''
     };
 
-    this.socket = io(process.env.REACT_APP_SOCKET_SERVER);
+
+
+    // // Call we started was answered
+    // this.socket.on('answeredCall', this.onAnsweredCall);
+
+    // // Call was ended
+    // this.socket.on('hangup', this.onHangup);
+
+    // // WebRTC
+    // this.socket.on('offer', this.onOffer);
+    // this.socket.on('answer', this.onAnswer);
+
+    // Speech
+    this.recognition = new window.webkitSpeechRecognition();
+    this.recognition.interimResults = true;
+    this.recognition.onresult = this.onTranscript;
+
+    // Synthesis
+    this.synth = window.speechSynthesis;
+
+
   }
 
   render() {
-    let langList = langs.map(lang => (
-      <option value={lang.code} key={lang.code}>{lang.name}</option>
-    ));
 
-    if (!this.state.username) {
-      console.log('rendering screen');
-      return (
-        <div className='App'>
-          <select value={this.state.lang} onChange={this.handleChange}>
-            {langList}
-          </select>
-          <div className='Splash'>
-            <div className='Title'>BABEL TALK</div>
-            <div className='Subtitle'>The real-time video calling voice-to-voice translation app!</div>
-            <input type='text' onKeyPress={this.onKeyPress} ref={el => { this.input = el }} placeholder="What's your name?" />
-          </div>
-        </div>
-      );
-    }
-    else {
-      return (
-        <div className='App'>
-          <select value={this.state.lang} onChange={this.handleChange}>
-            {langList}
-          </select>
-          <Call socket={this.socket} />
-          <Users username={this.state.username} socket={this.socket} />
-          <div className='VideoChat'>
-            <Video lang={this.state.lang} socket={this.socket} />
-            <Chat lang={this.state.lang} socket={this.socket} />
-          </div>
-        </div>
-      );
-    }
+    return (
+      <div className="App">
+        <header className="App-header">
+
+          <button onMouseUp={this.stopRecording} onMouseDown={this.record} className='button button-left'>
+            <b>
+              Attendant
+           </b>
+          </button>
+
+          <button className='button button-right'>
+            <b>
+              Customer
+           </b>
+          </button>
+
+        </header>
+      </div >
+    );
+
   }
 
-  onKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      let text = this.input.value;
+
+
+  // funcs
+
+  // Toggle muting mic
+  record = () => {
+    this.recognition.start();
+    this.setState({
+      recording: true
+    });
+  }
+
+  stopRecording = () => {
+    this.recognition.stop();
+    this.setState({
+      recording: false
+    });
+  }
+  receivedTranslation = (transcript) => {
+    console.log('RECEIVED TRANSCRIPT:', transcript);
+    this.setState({
+      leftSubtitles: this.state.leftSubtitles.concat(transcript)
+    });
+
+    setTimeout(() => {
+      console.log('timeout');
+      let transcripts = this.state.leftSubtitles;
+      for (let i = 0; i < transcripts.length; i++) {
+        if (transcripts[i] === transcript) {
+          transcripts.splice(i, 1);
+        }
+      }
+
       this.setState({
-        username: text
+        leftSubtitles: transcripts
       });
-      this.input.value = null;
-      this.socket.emit('join', { id: this.socket.id, username: text, lang: this.state.lang });
-    }
+    }, 5000);
+
+    let utterance = new SpeechSynthesisUtterance(transcript);
+    utterance.lang = this.props.lang;
+    this.synth.speak(utterance);
   }
 
-  componentDidMount() {
-    flight(8921,"2018-07-07", (res) => {});
-    let localLang = navigator.language;
-    langs.forEach(lang => {
-      if (lang.code === localLang) {
+  onTranscript = (event) => {
+    let results = event.results;
+    this.setState({
+      interimTranscript: ''
+    })
+    for (let i = event.resultIndex; i < results.length; ++i) {
+      let transcript = results[i][0].transcript;
+      if (results[i].isFinal) {
+        this.socket.emit('transcript', transcript);
         this.setState({
-          lang: localLang
+          interimTranscript: '',
+          rightSubtitles: this.state.rightSubtitles.concat(transcript)
+        });
+
+        setTimeout(() => {
+          console.log('timeout');
+          let transcripts = this.state.rightSubtitles;
+          for (let i = 0; i < transcripts.length; i++) {
+            if (transcripts[i] === transcript) {
+              transcripts.splice(i, 1);
+            }
+          }
+
+          this.setState({
+            rightSubtitles: transcripts
+          });
+        }, 5000);
+      } else {
+        this.setState({
+          interimTranscript: this.state.interimTranscript + transcript + ' '
         });
       }
-    });
+    }
   }
 
-  handleChange = (event) => {
-    console.log("lang change event");
-    console.log(event.target.value);
-    this.setState({
-      lang: event.target.value
-    });
-    // this.socket.emit(tell the server that language has changed)
-    this.socket.emit('lang', { lang: event.target.value });
-  }
 }
 
 export default App;
