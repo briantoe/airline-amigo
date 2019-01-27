@@ -57,7 +57,7 @@ export default class Flight extends Component {
                 <ul id="flightLabel">Origin Airport: </ul>
                 <ul id="flightLabel">Weather At Origin: </ul>
                 <ul id="flightLabel">Destination Aurport: </ul>
-                <ul id="flightLabel">Weather At Destination</ul>
+                <ul id="flightLabel">Weather At Destination:</ul>
               </div>
               <div class="alignright">
                 <ul id="flightValue">{this.state.speed} </ul>
@@ -73,8 +73,6 @@ export default class Flight extends Component {
           </div>
 
         </header>
-
-        {this.state.speed}
       </div >
     );
 
