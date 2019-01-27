@@ -107,12 +107,9 @@ class Translate extends Component {
 
   // Toggle muting mic
   record = (event) => {
-    this.recognition.start();
-    console.log("recording");
 
     this.setState({
       recording: true
-
     });
     let buttonPressed = event.target.innerText;
 
@@ -120,15 +117,25 @@ class Translate extends Component {
       console.log("passenger pressed");
       this.setState({
         speaker: this.state.lang
+      }, () => {
+        this.setSpeaker();
       });
     }
     else if (buttonPressed === "Attendant") {
       console.log('attendant pressed');
       this.setState({
         speaker: 'en-US'
+      }, () => {
+        this.setSpeaker();
       });
     }
+  }
 
+  setSpeaker = () => {
+    this.recognition.lang = this.state.speaker;
+    console.log('speaker', this.state.speaker);
+    this.recognition.start();
+    console.log("recording");
   }
 
   stopRecording = () => {
@@ -149,6 +156,7 @@ class Translate extends Component {
     let text = transcript[0].translatedText;
 
     let utterance = new SpeechSynthesisUtterance(text);
+    console.log(this.state.lang);
     utterance.lang = this.state.lang;
     this.synth.speak(utterance);
   }
@@ -166,9 +174,6 @@ class Translate extends Component {
       if (results[i].isFinal) {
         console.log(transcript);
 
-        if (this.state.speaker === this.state.lang) // you're not even translating into another language :thinking:
-          return;
-
         if (this.state.speaker === 'en-US') {
           let truncated = this.state.lang;
           truncated = truncated.substring(0, 2);
@@ -176,7 +181,8 @@ class Translate extends Component {
         }
         else {
           let truncated = this.state.speaker;
-          truncated = truncated.substring(0, 2)
+          console.log('trunc', truncated);
+          truncated = truncated.substring(0, 2);
           translate(transcript, 'en', truncated, this.receivedTranslation);
         }        // setTimeout(() => {
         //   console.log('timeout');
