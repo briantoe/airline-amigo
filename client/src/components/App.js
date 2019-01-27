@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
-import io from 'socket.io-client';
+//import io from 'socket.io-client';
 
 import langs from '../languages';
 
 // Component Imports
-import Users from './Users';
-import Video from './Video';
-import Chat from './Chat';
-import Call from './Call';
-import {flight} from './flight';
-
+//import {flight} from './flight';
+import Movies from './Movies';
+//import {populateMovies} from './populateMovies';
 // CSS Import
-import './App.css';
+//import './App.css';
 
 class App extends Component {
 
@@ -23,10 +20,15 @@ class App extends Component {
       username: null
     };
 
-    this.socket = io(process.env.REACT_APP_SOCKET_SERVER);
+    //this.socket = io(process.env.REACT_APP_SOCKET_SERVER);
   }
 
   render() {
+    return (
+      //<populateMovies/>
+      <Movies/>
+    );
+    /*
     let langList = langs.map(lang => (
       <option value={lang.code} key={lang.code}>{lang.name}</option>
     ));
@@ -52,15 +54,11 @@ class App extends Component {
           <select value={this.state.lang} onChange={this.handleChange}>
             {langList}
           </select>
-          <Call socket={this.socket} />
-          <Users username={this.state.username} socket={this.socket} />
           <div className='VideoChat'>
-            <Video lang={this.state.lang} socket={this.socket} />
-            <Chat lang={this.state.lang} socket={this.socket} />
           </div>
         </div>
       );
-    }
+    }*/
   }
 
   onKeyPress = (event) => {
@@ -70,12 +68,13 @@ class App extends Component {
         username: text
       });
       this.input.value = null;
-      this.socket.emit('join', { id: this.socket.id, username: text, lang: this.state.lang });
+      //this.socket.emit('join', { id: this.socket.id, username: text, lang: this.state.lang });
     }
   }
 
   componentDidMount() {
-    flight(8921,"2018-07-07", (res) => {});
+    //flight(8921,"2018-07-07", (res) => {});
+    //populateMovies((res) =>{});
     let localLang = navigator.language;
     langs.forEach(lang => {
       if (lang.code === localLang) {
@@ -93,7 +92,7 @@ class App extends Component {
       lang: event.target.value
     });
     // this.socket.emit(tell the server that language has changed)
-    this.socket.emit('lang', { lang: event.target.value });
+    //this.socket.emit('lang', { lang: event.target.value });
   }
 }
 
