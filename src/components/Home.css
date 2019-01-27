@@ -6,6 +6,28 @@
   margin: 50vh 10% 0 10%;
 }
 
+.parent {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.bathroomOpen {
+  background: #05f005;
+  color: #05f005;
+  text-align: center;
+}
+.bathroomClosed {
+  background: #f00505;
+  color: #f00505;
+  text-align: center;
+
+}
+.bathroomOutOfOrder {
+  background: #05f005;
+  color: #05f005;
+  text-align: center;
+}
+
 .Links a {
   background-color: gray;
   border-radius: 5px;
