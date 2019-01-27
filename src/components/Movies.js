@@ -36,13 +36,13 @@ export default class Movies extends Component {
   render() {
 
     let movies = this.state.movies.map((movie) => (
-      <li key={movie.id}><Movie title={movie.title} desc={movie.desc} thumbnail={movie.thumbnail}></Movie>
+      <li key={movie.id} className="movieList"><Movie title={movie.title} desc={movie.desc} thumbnail={movie.thumbnail}></Movie>
       </li>
     ));
 
     return (
-      <div>
-        <ul>
+      <div className="moviesDiv">
+        <ul className="unList">
           {movies}
         </ul>
       </div>
