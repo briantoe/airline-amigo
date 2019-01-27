@@ -1,0 +1,55 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+#flightField{
+  border-radius: 15px;
+  background-color: white;
+  color: #1d2025;
+  padding: 4px;
+  margin-left: 10px;
+  margin-bottom: 2px;
+}
+.flightList{
+  list-style-type: none;
+}
+.flightWrap{
+  display: flex;
+}
+.flightContainer{
+  display: flex;
+  overflow: hidden;
+  align-items: center;
+}
+.aligncenter{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.alignleft{
+  text-align: left;
+}
+.alignright{
+  text-align: right;
+}
+#flightLabel{
+  padding: 4px;
+}
+#flightValue{
+  border-radius: 10px;
+  background-color: white;
+  color: #1d2025;
+  padding: 4px;
+  text-align: center;
+}

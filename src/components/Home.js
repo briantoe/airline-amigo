@@ -8,12 +8,8 @@ export default class Home extends Component {
     super(props);
 
     this.state = {
-     occupiedBathroom: true // default is UN-occupied
+      occupiedBathroom: true // default is UN-occupied
     };
-
-
-  
-
   }
 
   render() {
@@ -32,11 +28,8 @@ export default class Home extends Component {
           <Link to='/flight'>Flight</Link>
           <Link to='/movies'>Movies</Link>
         </div>
-        
-   <button onClick={this.toggleColor}>.</button>
-
+        <button onClick={this.toggleColor}>.</button>
       </div>
-
     );
   }
 
@@ -44,5 +37,4 @@ export default class Home extends Component {
     var element = document.getElementById('bathroom');
     element.classList.toggle("bathroomClosed");
   }
-
 }
