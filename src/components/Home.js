@@ -9,7 +9,7 @@ export default class Home extends Component {
     return (
       <div className='Links'>
         <div id='translate-bg'>
-          <Link to='/translate'>Tanslate</Link>
+          <Link to='/translate'>Translate</Link>
         </div>
         <div id='flight-bg'>
           <Link to='/flight'>Flight</Link>
