@@ -1,6 +1,15 @@
 .Links {
   display: flex;
   justify-content: center;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
+  margin: 50vh 10% 0 10%;
+}
+
+.Links a {
+  background-color: gray;
+  border-radius: 5px;
+  padding: 20px;
+  text-decoration: none;
+  color: white;
 }
