@@ -37,18 +37,14 @@ export default class Movies extends Component {
   render() {
 
     let movies = this.state.movies.map((movie) => (
-      <li key={movie.id} className='movieList'>
-        <Link to={'/movies/' + movie.id} >
-          <Movie title={movie.title} desc={movie.desc} thumbnail={movie.thumbnail} />
-        </Link>
-      </li>
+      <Movie id={movie.id} title={movie.title} desc={movie.desc} thumbnail={movie.thumbnail} />
     ));
 
     return (
-      <div className="moviesDiv">
-        <ul className="unList">
+      <div className="MoviesWrapper">
+        <div className="Movies">
           {movies}
-        </ul>
+        </div>
       </div>
     );
   }
@@ -58,9 +54,11 @@ class Movie extends Component {
   render() {
     return (
       <div>
-        <img alt={this.props.title} src={this.props.thumbnail} />
-        <h3>{this.props.title}</h3>
-        <p>{this.props.desc}</p>
+        <Link to={'/movies/' + this.props.id}>
+          <img alt={this.props.title} src={this.props.thumbnail} />
+          <h3>{this.props.title}</h3>
+          <p>{this.props.desc}</p>
+        </Link>
       </div>
     );
   }
