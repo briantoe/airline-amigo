@@ -38,74 +38,74 @@ export default class Video extends Component {
     this.socket.on('transcript', this.receivedTranslation);
   }
 
-  render() {
+  // render() {
 
-    let leftSubtitles = this.state.leftSubtitles.map(transcript => (
-      <div key={Date.now() + Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5)} className='Subtitle'>{transcript}</div>
-    ));
+  //   let leftSubtitles = this.state.leftSubtitles.map(transcript => (
+  //     <div key={Date.now() + Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5)} className='Subtitle'>{transcript}</div>
+  //   ));
 
-    let rightSubtitles = this.state.rightSubtitles.map(transcript => (
-      <div key={Date.now() + Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5)} className='Subtitle'>{transcript}</div>
-    ));
+  //   let rightSubtitles = this.state.rightSubtitles.map(transcript => (
+  //     <div key={Date.now() + Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5)} className='Subtitle'>{transcript}</div>
+  //   ));
 
-    return (
-      <div className='Video'>
-        {/* Video tag to render the video stream */}
-        <video ref={el => { this.video = el }} autoPlay muted={this.state.toggleMic} />
-        <video className='Local' ref={el => { this.localVideo = el }} autoPlay muted={true} />
+  //   return (
+  //     <div className='Video'>
+  //       {/* Video tag to render the video stream */}
+  //       <video ref={el => { this.video = el }} autoPlay muted={this.state.toggleMic} />
+  //       <video className='Local' ref={el => { this.localVideo = el }} autoPlay muted={true} />
 
-        {/* Subtitles for voice */}
-        <div className='Subtitles'>
-          <div className='LeftSubtitles'>
-            {leftSubtitles}
-          </div>
-          <div className='RightSubtitles'>
-            {rightSubtitles}
-            {this.state.interimTranscript.length > 0 ? <div className='Subtitle InterimTranscript'>{this.state.interimTranscript}</div> : null}
-          </div>
-        </div>
-        {/* Absolute positioned controls (mute mic, mute video, end call) */}
-        <div className='Controls'>
-          <div onMouseDown={this.record} className={['Mic', this.state.recording ? 'Recording' : null].join(' ')} onMouseUp={this.stopRecording}><FaMicrophone /></div>
-          <div onClick={this.hangup} className='Hangup'><FaPhone /></div>
-        </div>
-      </div >
-    );
-  }
+  //       {/* Subtitles for voice */}
+  //       <div className='Subtitles'>
+  //         <div className='LeftSubtitles'>
+  //           {leftSubtitles}
+  //         </div>
+  //         <div className='RightSubtitles'>
+  //           {rightSubtitles}
+  //           {this.state.interimTranscript.length > 0 ? <div className='Subtitle InterimTranscript'>{this.state.interimTranscript}</div> : null}
+  //         </div>
+  //       </div>
+  //       {/* Absolute positioned controls (mute mic, mute video, end call) */}
+  //       <div className='Controls'>
+  //         <div onMouseDown={this.record} className={['Mic', this.state.recording ? 'Recording' : null].join(' ')} onMouseUp={this.stopRecording}><FaMicrophone /></div>
+  //         <div onClick={this.hangup} className='Hangup'><FaPhone /></div>
+  //       </div>
+  //     </div >
+  //   );
+  // }
 
-  // Toggle muting mic
-  record = () => {
-    this.recognition.start();
-    this.setState({
-      recording: true
-    });
-  }
+  // // Toggle muting mic
+  // record = () => {
+  //   this.recognition.start();
+  //   this.setState({
+  //     recording: true
+  //   });
+  // }
 
-  stopRecording = () => {
-    this.recognition.stop();
-    this.setState({
-      recording: false
-    });
-  }
+  // stopRecording = () => {
+  //   this.recognition.stop();
+  //   this.setState({
+  //     recording: false
+  //   });
+  // }
 
-  hangup = () => {
-    this.socket.emit('hangup');
-  }
+  // hangup = () => {
+  //   this.socket.emit('hangup');
+  // }
 
-  onHangup = () => {
-    if (!this.peer) {
-      return;
-    }
-    this.peer.destroy();
-    this.peer = null;
-    this.video.srcObject.getTracks().forEach(track => {
-      track.stop();
-    });
-    this.localVideo.srcObject.getTracks().forEach(track => {
-      track.stop();
-    });
-  }
-
+  // onHangup = () => {
+  //   if (!this.peer) {
+  //     return;
+  //   }
+  //   this.peer.destroy();
+  //   this.peer = null;
+  //   this.video.srcObject.getTracks().forEach(track => {
+  //     track.stop();
+  //   });
+  //   this.localVideo.srcObject.getTracks().forEach(track => {
+  //     track.stop();
+  //   });
+  // }
+/////////////////////////////////////////////////////////////////////////////
   receivedTranslation = (transcript) => {
     console.log('RECEIVED TRANSCRIPT:', transcript);
     this.setState({
@@ -165,56 +165,56 @@ export default class Video extends Component {
       }
     }
   }
-
+/////////////////////////////////////////////////////////////////////////////
   // Send offer to the peer to peer using sockets
-  onAnsweredCall = (call) => {
+  // onAnsweredCall = (call) => {
 
-    if (this.socket.id !== call.to) {
+  //   if (this.socket.id !== call.to) {
 
-      navigator.mediaDevices.getUserMedia({ audio: false, video: true }).then(localStream => {
-        this.localVideo.srcObject = localStream;
+  //     navigator.mediaDevices.getUserMedia({ audio: false, video: true }).then(localStream => {
+  //       this.localVideo.srcObject = localStream;
 
-        this.peer = new Peer({
-          initiator: true,
-          stream: localStream
-        });
+  //       this.peer = new Peer({
+  //         initiator: true,
+  //         stream: localStream
+  //       });
 
-        this.peer.on('signal', offer => {
-          this.socket.emit('offer', { offer: offer, ...call });
-        });
+  //       this.peer.on('signal', offer => {
+  //         this.socket.emit('offer', { offer: offer, ...call });
+  //       });
 
-        this.peer.on('stream', remoteStream => {
-          console.log(remoteStream);
-          this.video.srcObject = remoteStream;
-        });
-      });
-    }
-  }
+  //       this.peer.on('stream', remoteStream => {
+  //         console.log(remoteStream);
+  //         this.video.srcObject = remoteStream;
+  //       });
+  //     });
+  //   }
+  // }
 
-  onOffer = (data) => {
+  // onOffer = (data) => {
 
-    if (!this.peer) {
-      navigator.mediaDevices.getUserMedia({ audio: false, video: true }).then(localStream => {
+  //   if (!this.peer) {
+  //     navigator.mediaDevices.getUserMedia({ audio: false, video: true }).then(localStream => {
 
-        this.localVideo.srcObject = localStream;
-        this.peer = new Peer({
-          initiator: false,
-          stream: localStream
-        });
-        this.peer.signal(data.offer);
+  //       this.localVideo.srcObject = localStream;
+  //       this.peer = new Peer({
+  //         initiator: false,
+  //         stream: localStream
+  //       });
+  //       this.peer.signal(data.offer);
 
-        this.peer.on('signal', answer => {
-          this.socket.emit('answer', { answer: answer, to: data.to, from: data.from });
-        });
+  //       this.peer.on('signal', answer => {
+  //         this.socket.emit('answer', { answer: answer, to: data.to, from: data.from });
+  //       });
 
-        this.peer.on('stream', remoteStream => {
-          this.video.srcObject = remoteStream;
-        });
-      });
-    }
-  }
+  //       this.peer.on('stream', remoteStream => {
+  //         this.video.srcObject = remoteStream;
+  //       });
+  //     });
+  //   }
+  // }
 
-  onAnswer = (data) => {
-    this.peer.signal(data.answer);
-  }
+  // onAnswer = (data) => {
+  //   this.peer.signal(data.answer);
+  // }
 }
