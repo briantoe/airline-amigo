@@ -40,6 +40,8 @@ export default class Flight extends Component {
   // James likes lists
   render() {
 
+    let bathroom = this.state.bathroomStatus ? 'red' : 'green';
+
     return (
       <div className="App">
         <header className="App-header">
@@ -69,7 +71,7 @@ export default class Flight extends Component {
                 <ul id="flightValue">{this.state.originWeather} </ul>
                 <ul id="flightValue">{this.state.destinationCode} </ul>
                 <ul id="flightValue">{this.state.destinationWeather} </ul>
-                <ul id="flightValue" background-color={this.state.bathroomStatus ? 'red' : 'green'}>{this.state.bathroomStatus} </ul>
+                <ul id="flightValue2" style={{backgroundColor: bathroom}}>{this.state.bathroomStatus ? "Occupied" : "Vacant"} </ul>
               </div>
             </div>
           </div>
