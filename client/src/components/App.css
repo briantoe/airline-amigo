@@ -54,16 +54,34 @@
 .flightWrap{
   display: flex;
 }
-.flighContainer{
+.flightContainer{
   display: flex;
-  flex-wrap: wrap;
-  align-content: space-between;
+  overflow: hidden;
+  align-items: center;
+  > div {
+    flex: 1;
+  }
+}
+.aligncenter{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 .alignleft{
-  float: left;
+  text-align: left;
 }
 .alignright{
-  float: right;
+  text-align: right;
+}
+#flightLabel{
+  padding: 4px;
+}
+#flightValue{
+  border-radius: 10px;
+  background-color: white;
+  color: #1d2025;
+  padding: 4px;
+  text-align: center;
 }
 
 

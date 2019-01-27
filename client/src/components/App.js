@@ -33,54 +33,34 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-
-          <ul>
-          <ul><h2>Flight {this.state.flightNumber} from {this.state.originCode} to {this.state.destinationCode}</h2></ul>
-
-          <ul className="flightList">
-
-          <li className="flightWrap">
-          <div>Speed: </div><div id="flightField"> {this.state.speed} </div>
-          </li>
-
-          <li className="flightWrap">
-          <div>Altitude: </div><div id="flightField"> {this.state.altitude} </div>
-          </li>
-
-          <li className="flightWrap">
-          <div>Outside Temperature: </div><div id="flightField"> {this.state.temperature} </div>
-          </li>
-
-          <li className="flightWrap">
-          <div>Estimated Time Arrival: </div><div id="flightField"> {this.state.eta} </div>
-          </li>
-
-          <li className="flightWrap">
-          <div>Origin Airport: </div><div id="flightField"> {this.state.originCode} </div>
-          </li>
-
-          <li className="flightWrap">
-          <div>Weather At Origin: </div><div id="flightField"> {this.state.originWeather} </div>
-          </li>
-
-          <li className="flightWrap">
-          <div>Destination Airport: </div><div id="flightField"> {this.state.destinationCode} </div>
-          </li>
-
-          <li className="flightWrap">
-          <div>Weather At Destination: </div><div id="flightField"> {this.state.destinationWeather} </div>
-          </li>
-
-          <li className="flightWrap">
-          <div>Bathroom Status: </div><div id="flightField"> {this.state.bathroomStatus} </div>
-          </li>
-          </ul>
-          </ul>
-
-          <div class="flightContainer">
-            <div>test test test</div>
-            <div>result result result</div>
+        <div class="aligncenter">
+          <div>
+              <h2> Flight {this.state.flight} from {this.state.originCode} to {this.state.destinationCode} </h2>
           </div>
+          
+          <div class="flightContainer">
+            <div class="alignleft">
+              <ul id="flightLabel">Speed: </ul>
+              <ul id="flightLabel">Altitude: </ul>
+              <ul id="flightLabel">Temperature: </ul>
+              <ul id="flightLabel">Estimated Arrival: </ul>
+              <ul id="flightLabel">Origin Airport: </ul>
+              <ul id="flightLabel">Weather At Origin: </ul>
+              <ul id="flightLabel">Destination Aurport: </ul>
+              <ul id="flightLabel">Weather At Destination</ul>
+            </div>
+            <div class="alignright">
+              <ul id="flightValue">{this.state.speed} </ul>
+              <ul id="flightValue">{this.state.altitude} </ul>
+              <ul id="flightValue">{this.state.temperature} </ul>
+              <ul id="flightValue">{this.state.eta} </ul>
+              <ul id="flightValue">{this.state.originCode} </ul>
+              <ul id="flightValue">{this.state.originWeather} </ul>
+              <ul id="flightValue">{this.state.destinationCode} </ul>
+              <ul id="flightValue">{this.state.destinationWeather} </ul>
+            </div>
+          </div>
+        </div>
 
         </header>
   
