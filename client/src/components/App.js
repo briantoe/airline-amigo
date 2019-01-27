@@ -8,7 +8,7 @@ import Users from './Users';
 import Video from './Video';
 import Chat from './Chat';
 import Call from './Call';
-import {flight} from './Translate';
+import {flight} from './flight';
 
 // CSS Import
 import './App.css';
